@@ -1,0 +1,97 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+// Função para calcular a média
+float calcularMedia(float nota1, float nota2, float nota3) {
+    return (nota1 + nota2 + nota3) / 3;
+}
+
+// Função para ler nota aceitando vírgula
+float lerNota() {
+    string textoNota;
+    cin >> textoNota;
+
+    // Trocar vírgula por ponto
+    for (int i = 0; i < textoNota.size(); i++) {
+        if (textoNota[i] == ',') {
+            textoNota[i] = '.';
+        }
+    }
+
+    // Convertendo texto para número
+    float nota = stof(textoNota);
+    return nota;
+}
+
+int main() {
+    int quantidadeAlunos;
+
+    // Pergunta quantos alunos
+    do {
+        cout << "Digite a quantidade de alunos (entre 3 e 5): ";
+        cin >> quantidadeAlunos;
+        if (quantidadeAlunos < 3 || quantidadeAlunos > 5) {
+            cout << "Valor inválido. Digite de 3 a 5.\n";
+        }
+    } while (quantidadeAlunos < 3 || quantidadeAlunos > 5);
+
+    // Criar vetores para armazenar dados
+    string nomes[5];
+    float nota1[5], nota2[5], nota3[5], media[5];
+    string situacao[5];
+
+    int i = 0;
+
+    while (i < quantidadeAlunos) {
+        cout << "\nNome do aluno " << i + 1 << ": ";
+        cin.ignore(); // Limpar o ENTER que ficou no teclado
+        getline(cin, nomes[i]); // Aqui usamos getline porque o nome pode ter espaço
+
+        cout << "Nota 1: ";
+        nota1[i] = lerNota();
+
+        cout << "Nota 2: ";
+        nota2[i] = lerNota();
+
+        cout << "Nota 3: ";
+        nota3[i] = lerNota();
+
+        media[i] = calcularMedia(nota1[i], nota2[i], nota3[i]);
+
+        if (media[i] >= 6.0) {
+            situacao[i] = "Aprovado";
+        } else {
+            situacao[i] = "Reprovado";
+        }
+
+        i++;
+    }
+
+    // Mostrar resultados
+    cout << "\n--- Resultados ---\n";
+
+    i = 0;
+    while (i < quantidadeAlunos) {
+        cout << "Aluno: " << nomes[i] << endl;
+        cout << "Notas: " << nota1[i] << ", " << nota2[i] << ", " << nota3[i] << endl;
+        cout << "Média: " << media[i] << endl;
+        cout << "Situação: " << situacao[i] << endl;
+        cout << "-----------------------\n";
+        i++;
+    }
+
+    // Descobrir quem teve a maior média
+    int maior = 0;
+    i = 1;
+    while (i < quantidadeAlunos) {
+        if (media[i] > media[maior]) {
+            maior = i;
+        }
+        i++;
+    }
+
+    cout << "\nAluno com a maior média: " << nomes[maior] << " (Média: " << media[maior] << ")\n";
+
+    return 0;
+}
